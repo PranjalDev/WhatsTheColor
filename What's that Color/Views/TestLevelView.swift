@@ -70,6 +70,7 @@ struct TestLevelView: View {
                                     }
                                 }
                             }
+                            .disabled(selection.count >= testLevel.correctChoiceCount && !selection.contains(choice))
                         }
                         .scaleEffect(scale)
                     }
