@@ -4,7 +4,8 @@ struct ContentView: View {
     
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @Environment(\.restrictToPortrait) var restrictToPortrait
-    
+    @State var disclaimerViewPresented: Bool = false
+    @AppStorage(wrappedValue: false, "disclaimerPresented") var disclaimerPresented: Bool
     var body: some View {
         NavigationView {
             ScrollView {
@@ -71,10 +72,19 @@ struct ContentView: View {
                 }
                 .buttonStyle(.plain)
                 .padding()
-                .navigationBarTitle("What's the Color")
+                .navigationBarTitle("What's that Color")
                 .navigationBarTitleDisplayMode(.inline)
             }
         }.navigationViewStyle(StackNavigationViewStyle())
+            .onAppear {
+                guard disclaimerPresented != true else {
+                    return
+                }
+                disclaimerViewPresented.toggle()
+            }
+            .sheet(isPresented: $disclaimerViewPresented) {
+                DisclaimerView()
+            }
     }
 }
 
