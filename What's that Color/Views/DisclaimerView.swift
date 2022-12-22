@@ -9,7 +9,6 @@ import SwiftUI
 
 struct DisclaimerView: View {
     
-//    @Binding var disclaimerViewPresented: Bool
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @Environment(\.presentationMode) var presentationMode
     @AppStorage(wrappedValue: false, "disclaimerPresented") var disclaimerPresented: Bool

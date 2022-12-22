@@ -5,7 +5,6 @@ struct ContentView: View {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @Environment(\.restrictToPortrait) var restrictToPortrait
     @State var disclaimerViewPresented: Bool = false
-    @AppStorage(wrappedValue: false, "disclaimerPresented") var disclaimerPresented: Bool
     var body: some View {
         NavigationView {
             ScrollView {
@@ -51,7 +50,7 @@ struct ContentView: View {
                                 ) {
                                     ColorRecogniserView(restrictToPortrait: restrictToPortrait)
                                         .edgesIgnoringSafeArea(.all)
-                                        
+                                    
                                 }
                                 GroupBoxNavigationLink(
                                     title: "Color Blindness Test",
@@ -75,16 +74,25 @@ struct ContentView: View {
                 .navigationBarTitle("What's that Color")
                 .navigationBarTitleDisplayMode(.inline)
             }
-        }.navigationViewStyle(StackNavigationViewStyle())
-            .onAppear {
-                guard disclaimerPresented != true else {
-                    return
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        disclaimerViewPresented.toggle()
+                    } label: {
+                        Image(systemName: "info.circle")
+                    }
+
                 }
-                disclaimerViewPresented.toggle()
             }
-            .sheet(isPresented: $disclaimerViewPresented) {
-                DisclaimerView()
-            }
+        }
+        .navigationViewStyle(StackNavigationViewStyle())
+        .onAppear {
+            disclaimerViewPresented.toggle()
+        }
+        .sheet(isPresented: $disclaimerViewPresented) {
+            DisclaimerView()
+        }
+        
     }
 }
 
